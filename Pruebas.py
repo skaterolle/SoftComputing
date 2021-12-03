@@ -108,8 +108,41 @@ def prueba2():
             files.write(str(Iguales[x][5]))
             files.write("\n")
 
-prueba2()
-
+def prueba3():
+    with f2 as files:
+        porcentaje = 0
+        for i in range(len(Triangulos)):
+            compara = Triangulos[i]
+            encontrado = False
+            if porcentaje < int((i*100)/len(Triangulos)):
+                porcentaje = int((i*100)/len(Triangulos))
+                print("Calculando Reglas: ", porcentaje, "%")
+            #print("Iguales: ", len(Iguales))
+            for j in range(len(Iguales)):
+                comparado = Iguales[j]
+                #print(compara[5], compara[5]==comparado, comparado)
+                if set(compara) == set(comparado): #Compara ambas listas
+                    encontrado = True
+            if not encontrado:
+                Iguales.append(Triangulos[i])
+                Rollrate.append(Triangulos[i][0])
+        for x in range(len(Iguales)):
+            #string = [str(x) for x in Triangulos[j]]
+            #string = Triangulos[j]
+            files.write(str(Iguales[x][0]))
+            files.write(",")
+            files.write(str(Iguales[x][1]))
+            files.write(",")
+            files.write(str(Iguales[x][2]))
+            files.write(",")
+            files.write(str(Iguales[x][3]))
+            files.write(",")
+            files.write(str(Iguales[x][4]))
+            files.write(",")
+            files.write(str(Iguales[x][5]))
+            files.write("\n")
+            
+prueba3()
 #print(Rollrate)
 valor = 0
 # Tengo que guardarlo en Rollrate como números no como Strings
