@@ -1,0 +1,34 @@
+### APRENDIZAJE ###
+# Trabajar con 3 etiquetas son las 2 de los extremos y una del medio
+# El dataset son antecedentes y el ultimo son los consecuentes
+# Etiquetas son los triangulos, son grande, mediano,etc... son etiquetas linguisticas
+# bajo, medio, grande 3 etiquetas
+# bajo, bajo-medio, medio, alto-medio, alto 5 etiquetas
+# El matching son las 5
+# El matching con mismos antecedentes hay que meter el consecuente para que cambie
+# Para hacer las etiquetas, buscamos de cada antecedente el mínimo y el máximo y dividimos el espacio en 
+# 3 o 5 etiquetas, con ello podemos hacer el matching 
+
+# Para poder sacar bien las reglas, primero las divido en las que son diferentes, después busco si hay reglas 
+# cuyos antecedentes sean iguales y su consecuente diferente, con lo que saco matching y me quedo con el mayor y por último
+# saco el error cuadrático medio (Con el total o con las reglas que me quedan?)(Con las reglas que me quedan)
+
+
+
+
+# Buscar cálculo de la validación cruzada
+# Hacer primero el aprendizaje con 1 y pasar la prueba y pasarle el valor error cuadrático medio a las 2
+# Cada una es independiente
+# el error cuadratico medio es la diferencia entre lo que me da y lo que me debería dar al cuadrado sumado por cada uno y dividido entre los ejemplos
+# 
+
+Como saco exactamente lo que me debe dar? 
+
+# aprender las reglas es un algoritmo
+# Evaluar las reglas es otro algoritmo
+
+
+
+1º aprender las reglas -> son las etiquetas, guardarlo con sus etiquetas
+2º Código del controlador --> tema dedicado a la regresión -> Utiliza el conjunto de reglas aprendido
+3º Codigo del error cuadrático medio 

@@ -66,7 +66,7 @@ def prueba1(File):
             if set(Regla) == set(Igual):
                 encontrado = True
         if not encontrado:
-            Iguales.app66end(Regla)
+            Iguales.append(Regla)
     write_fileT(Conjunto_Reglas_5, Iguales)
     print("Relgas Totales: ", len(Iguales))
 
@@ -100,3 +100,5 @@ prueba2("training/delta_ail-5-2tra.dat")
 prueba2("training/delta_ail-5-3tra.dat")
 prueba2("training/delta_ail-5-4tra.dat")
 #prueba1("training/delta_ail-5-5tra.dat")
+
+
