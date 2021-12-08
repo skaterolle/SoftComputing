@@ -1,0 +1,85 @@
+
+
+//La base de dato (D) es una tabla de m+1 filas (Entradas+Salida) y 3*f columnas, siendo f la cantidad de valores de cada figura de cada entrada
+
+//La base de reglas(R) es una tabla de n filas y m+1 columnas donde se almacena la primera posición de cada figura utilizada o null si una variable no es utilizada en una regla
+
+
+
+ vE[m] // Valores de entrada
+ T[] //Cada operador de conjunción  
+ sumaHxPMV=0;
+
+
+Para i=0 hasta n{
+
+	r=R[i]
+	T[i]= CalcularT(r,vE,D)
+
+	
+	x1= D[end][r[end]+1]//Tomo el punto mas grande de la figura de salida que apunta la regla r
+	
+	sumaHxPMV+=T[i]*x1 //Al ser un triangulo simetrico y F esta cálculado con el mínimo, el PMV es la x1 (punto medio)
+}
+
+matching = sumaHxPMV/suma(T)
+
+
+// Funciones
+
+CalcularT(r,vE,D){
+	
+	h[]// el resultado de cada entrada de la regla
+
+	Para i=0 hasta m{
+
+		si(r[i] != nulo){
+			//Sacamos las coordenadas del triangulo conociendo la posición de la primera de ellas
+			x[0]= D[i][r[i]]
+			x[1]= D[i][r[i]+1]
+			x[2]= D[i][r[i]+2]
+			
+			h.añadir(CalcularH(x,vE[i]))
+		}
+
+	}
+	//Tras cálcular todas las h de la regla hacemos el producto de todas ellas 
+	
+	devolver producto(h)
+
+}
+
+CalcularH(x[3],ve){
+
+	si(ve<x[0]) devolver 0
+	si(ve>x[3]) devolver 0
+	si(ve==x[2]) devolver 1
+	si(ve<x[2]) devolver (ve-x[0])/(x[1]-x[0])
+	sino devolver (ve-x3)/(x[2]-x[3])
+
+
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

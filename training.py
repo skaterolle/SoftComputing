@@ -62,6 +62,7 @@ def comparacion_menor(num1, num2):
         return num2
 
 # Se pasa un número y una lista, dependiendo de entre que valores esté, devuelve en 5 etiquetas diferents
+# La lista son los inicios y finales de las etiquetas
 def etiqueta_5(num, T):
     if num >= T[0] and num < T[1]:
         return "Bajo"
@@ -90,13 +91,111 @@ def etiqueta_3(num, T):
 
 # Devuelve la Regla con las etiquetas ya establecidas para 5 etiquetas
 def etiquetado_5(Regla, AT1, AT2, AT3, AT4, AT5, ATC):
-    Regla_R = [etiqueta_5(Regla[0],AT1), etiqueta_5(Regla[1],AT2), etiqueta_5(Regla[2],AT3), etiqueta_5(Regla[3],AT4), etiqueta_5(Regla[4],AT5), etiqueta_5(Regla[5],ATC)]
+    E1 = etiqueta_5(Regla[0],AT1)
+    E2 = etiqueta_5(Regla[1],AT2)
+    E3 = etiqueta_5(Regla[2],AT3)
+    E4 = etiqueta_5(Regla[3],AT4)
+    E5 = etiqueta_5(Regla[4],AT5)
+    EC = etiqueta_5(Regla[5],ATC)
+    Regla_R = [E1, E2, E3, E4, E5, EC]
+    A1 = matching_5(Regla[0],AT1, E1)
+    A2 = matching_5(Regla[1],AT2, E2)
+    A3 = matching_5(Regla[2],AT3, E3)
+    A4 = matching_5(Regla[3],AT4, E4)
+    A5 = matching_5(Regla[4],AT5, E5)
+    C = matching_5(Regla[5],ATC, EC)
+    emparejamiento = A1 + A2 + A3 + A4 + A5 + C
+    Regla_R.append(emparejamiento)
     return Regla_R
     
 # Devuelve la Regla con las etiquetas ya establecidas para 3 etiquetas
 def etiquetado_3(Regla, AT1, AT2, AT3, AT4, AT5, ATC):
-    Regla_R = [etiqueta_3(Regla[0],AT1), etiqueta_3(Regla[1],AT2), etiqueta_3(Regla[2],AT3), etiqueta_3(Regla[3],AT4), etiqueta_3(Regla[4],AT5), etiqueta_3(Regla[5],ATC)]
+    E1 = etiqueta_3(Regla[0],AT1)
+    E2 = etiqueta_3(Regla[1],AT2)
+    E3 = etiqueta_3(Regla[2],AT3)
+    E4 = etiqueta_3(Regla[3],AT4)
+    E5 = etiqueta_3(Regla[4],AT5)
+    EC = etiqueta_3(Regla[5],ATC)
+    Regla_R = [E1, E2, E3, E4, E5, EC]
+    A1 = matching_3(Regla[0],AT1, E1)
+    A2 = matching_3(Regla[1],AT2, E2)
+    A3 = matching_3(Regla[2],AT3, E3)
+    A4 = matching_3(Regla[3],AT4, E4)
+    A5 = matching_3(Regla[4],AT5, E5)
+    C = matching_3(Regla[5],ATC, EC)
+    emparejamiento = A1 + A2 + A3 + A4 + A5 + C
+    Regla_R.append(emparejamiento)
     return Regla_R
+
+# Devuelve el valor del matching dependiendo de 5 etiquetas
+def matching_5(num, AT, E):
+    T = []
+    if E == "Bajo":
+        T.append(AT[0])
+        medio = (AT[1] - AT[0])/2
+        T.append(AT[0] + medio)
+        T.append(AT[1])
+    elif E == "Medio-Bajo":
+        T.append(AT[1])
+        medio = (AT[2] - AT[1])/2
+        T.append(AT[1] + medio)
+        T.append(AT[2])
+    elif E == "Medio":
+        T.append(AT[2])
+        medio = (AT[3] - AT[2])/2
+        T.append(AT[2] + medio)
+        T.append(AT[3])
+    elif E == "Medio-Alto":
+        T.append(AT[3])
+        medio = (AT[4] - AT[3])/2
+        T.append(AT[3] + medio)
+        T.append(AT[4])
+    elif E == "Alto":
+        T.append(AT[4])
+        medio = (AT[5] - AT[4])/2
+        T.append(AT[4] + medio)
+        T.append(AT[5])
+    
+    if num < T[0]:
+        return 0
+    elif num > T[2]:
+        return 0
+    elif num == T[1]:
+        return 1
+    elif num >= T[0] and num < T[1]:
+        return (num - T[0])/(T[1]-T[0])
+    elif num > T[1] and num <= T[2]:
+        return (num - T[2])/(T[1] - T[2])
+
+# Devuelve el valor del matching dependiendo de 3 etiquetas
+def matching_3(num, AT, E):
+    T = []
+    if E == "Bajo":
+        T.append(AT[0])
+        medio = (AT[1] - AT[0])/2
+        T.append(AT[0] + medio)
+        T.append(AT[1])
+    elif E == "Medio":
+        T.append(AT[1])
+        medio = (AT[2] - AT[1])/2
+        T.append(AT[1] + medio)
+        T.append(AT[2])
+    elif E == "Alto":
+        T.append(AT[2])
+        medio = (AT[3] - AT[2])/2
+        T.append(AT[2] + medio)
+        T.append(AT[3])
+    
+    if num < T[0]:
+        return 0
+    elif num > T[2]:
+        return 0
+    elif num == T[1]:
+        return 1
+    elif num >= T[0] and num < T[1]:
+        return (num - T[0])/(T[1]-T[0])
+    elif num > T[1] and num <= T[2]:
+        return (num - T[2])/(T[1] - T[2])
 
 # Devuelve una lista donde se descartan las reglas iguales
 def Descarta_Iguales(texto, Reglas_Iniciales):
@@ -110,21 +209,49 @@ def Descarta_Iguales(texto, Reglas_Iniciales):
             print(texto, porcentaje, "%")
         for j in range(len(Iguales)):
             Igual = Iguales[j]
-            if set(Regla) == set(Igual):
+            if (Regla[0] == Igual[0]) and (Regla[1] == Igual[1]) and (Regla[2] == Igual[2]) and (Regla[3] == Igual[3]) and (Regla[4] == Igual[4]) and (Regla[5] == Igual[5]):
+            #if set(Regla) == set(Igual):
                 encontrado = True
         if not encontrado:
             #print(i)
             Iguales.append(Regla)
     return Iguales
 
+# Comprueba si hay Reglas cuyos antecedentes sean iguales pero sus consecuentes diferentes, se pasa después de la función Descarta_Iguales() o Comprueba_Reglas()
 def comprueba_antecedentes(List):
     for x in range(len(List)):
         for y in range(len(List)):
             if x != y:
                 if (List[x][0] == List[y][0]) and (List[x][1] == List[y][1]) and (List[x][2] == List[y][2]) and (List[x][3] == List[y][3]) and (List[x][4] == List[y][4]):
                     print("Iguales, X = ", x, " Y = ", y)
-                    print("X = ", List[x][:-1])
-                    print("Y = ", List[y][:-1])
+                    print("X = ", List[x][:-1], " Matching = ", List[x][6])
+                    print("Y = ", List[y][:-1], " Matching = ", List[y][6])
+                    if List[x][6] > List[y][6]:
+                        List.pop(y)
+                    else:
+                        List.pop(x)
+
+# Comprueba cada reglas si sus antecedentes son iguales pero sus consecuentes diferentes y coge el matching que se hizo al etiquetar cada regla
+# Y se escoge aquel que tenga mayor matching, Devuelve la Lista de Reglas sin el matching
+def comprueba_Reglas(List):
+    Reglas_Afinadas = []
+    for x in range(len(List)):
+        encontrado = False
+        for y in range(len(Reglas_Afinadas)):
+            if (List[x][0] == Reglas_Afinadas[y][0]) and (List[x][1] == Reglas_Afinadas[y][1]) and (List[x][2] == Reglas_Afinadas[y][2]) and (List[x][3] == Reglas_Afinadas[y][3]) and (List[x][4] == Reglas_Afinadas[y][4]):
+                # print("Iguales, X = ", x, " Y = ", y)
+                # print("X = ", List[x][:-1], " Matching = ", List[x][6])
+                # print("Y = ", Reglas_Afinadas[y][:-1], " Matching = ", Reglas_Afinadas[y][6])
+                encontrado = True
+                if List[x][6] > Reglas_Afinadas[y][6]:
+                    Reglas_Afinadas.pop(y)
+                    Reglas_Afinadas.append(List[x])
+        if not encontrado:
+            Reglas_Afinadas.append(List[x])
+    Reglas = []
+    for x in range(len(Reglas_Afinadas)):
+        Reglas.append(Reglas_Afinadas[x][:-1])
+    return Reglas
 
 def prueba1(File):
     # Definición de variables de reglas
@@ -205,7 +332,7 @@ def prueba1(File):
     print("Triangulos ATC: ", ATC)
     print("Regla 1: ", etiquetado_5(Iguales[0],AT1,AT2,AT3,AT4,AT5,ATC))
 
-def Training_5(File):
+def Training_5(File, SaveFile):
     # Definición de variables de reglas
     Reglas_Iniciales = []
     Reglas_Etiquetadas = []
@@ -225,6 +352,8 @@ def Training_5(File):
     AT5 = []
     Reglas_Iniciales = read_file(File)
     porcentaje = 0
+
+    # Comprueba los minimos y máximos de cada antecedente y consecuente y quita aquellas entradas que sean iguales
     for i in range(len(Reglas_Iniciales)):
         Regla = Reglas_Iniciales[i]
         encontrado = False
@@ -252,6 +381,7 @@ def Training_5(File):
         if not encontrado:
             Iguales.append(Regla)
     
+    # Saca los triangulos (Inicio y Final) de cada Antecedente y Consecuente y los guarda en una Lista
     Div1 = (A1[1] - A1[0])/5
     AT1 = [A1[0] , A1[0] + Div1, A1[0] + Div1*2, A1[0] + Div1*3, A1[0] + Div1*4, A1[0] + Div1*5]
     Div2 = (A2[1] - A2[0])/5
@@ -269,16 +399,25 @@ def Training_5(File):
     Iguales = []
     porcentaje = 0
 
+    # Etiqueta cada regla y les agrega su matching para usar más tarde
     for x in range(len(Reglas_Iniciales)):
         if porcentaje < int((i*100)/len(Reglas_Iniciales)):
             porcentaje = int((i*100)/len(Reglas_Iniciales))
             print("Etiquetando Reglas: ", porcentaje, "%")
         Reglas_Etiquetadas.append(etiquetado_5(Reglas_Iniciales[x],AT1,AT2,AT3,AT4,AT5,ATC))
-
+    #Iguales = Reglas_Etiquetadas
     #for x in range(len(Reglas_Etiquetadas)):
     Iguales = Descarta_Iguales("Descartando Iguales: ",Reglas_Etiquetadas)
 
-    write_fileTSTR("ReglasEtiquetadas5.txt", Iguales)
+    Reglas_Iniciales = Iguales
+    Iguales = []
+
+    # Compruba cada Regla y quita aquellas cuyos antecedentes sean iguales y consecuentes diferentes eligiendo los que tengan un matching mayor
+    # Devuelve una Lista sin el matching
+    Iguales = comprueba_Reglas(Reglas_Iniciales)
+    write_fileTSTR(SaveFile, Iguales[:][:-1])
+    comprueba_antecedentes(Iguales)
+
     # Muestra por pantalla
     print("Reglas Totales: ", len(Iguales))
     print("Antecedente 1: ", A1)
@@ -300,11 +439,10 @@ def Training_5(File):
     # print("Divisor ATC: ", DivC)
     # print("Triangulos ATC: ", ATC)
     #print(Iguales[1][:-1]) # El [:-1] hace que sea la lista menos el último elemento
-    comprueba_antecedentes(Iguales)
     #print(Iguales)
     #print("Regla 1: ", etiquetado_5(Iguales[0],AT1,AT2,AT3,AT4,AT5,ATC))
 
-def Training_3(File):
+def Training_3(File, SaveFile):
     # Definición de variables de reglas
     Reglas_Iniciales = []
     Reglas_Etiquetadas = []
@@ -324,6 +462,8 @@ def Training_3(File):
     AT5 = []
     Reglas_Iniciales = read_file(File)
     porcentaje = 0
+
+    # Comprueba los minimos y máximos de cada antecedente y consecuente y quita aquellas entradas que sean iguales
     for i in range(len(Reglas_Iniciales)):
         Regla = Reglas_Iniciales[i]
         encontrado = False
@@ -351,7 +491,7 @@ def Training_3(File):
         if not encontrado:
             Iguales.append(Regla)
     
-
+    # Saca los triangulos (Inicio y Final) de cada Antecedente y Consecuente y los guarda en una Lista
     Div1 = (A1[1] - A1[0])/3
     AT1 = [A1[0] , A1[0] + Div1, A1[0] + Div1*2, A1[0] + Div1*3]
     Div2 = (A2[1] - A2[0])/3
@@ -369,6 +509,7 @@ def Training_3(File):
     Iguales = []
     porcentaje = 0
 
+    # Etiqueta cada regla y les agrega su matching para usar más tarde
     for x in range(len(Reglas_Iniciales)):
         if porcentaje < int((i*100)/len(Reglas_Iniciales)):
             porcentaje = int((i*100)/len(Reglas_Iniciales))
@@ -378,7 +519,15 @@ def Training_3(File):
     #for x in range(len(Reglas_Etiquetadas)):
     Iguales = Descarta_Iguales("Descartando Iguales: ",Reglas_Etiquetadas)
 
-    write_fileTSTR("ReglasEtiquetadas3.txt", Iguales)
+    Reglas_Iniciales = Iguales
+    Iguales = []
+
+    # Compruba cada Regla y quita aquellas cuyos antecedentes sean iguales y consecuentes diferentes eligiendo los que tengan un matching mayor
+    # Devuelve una Lista sin el matching
+    Iguales = comprueba_Reglas(Reglas_Iniciales)
+    write_fileTSTR(SaveFile, Iguales[:][:-1])
+    comprueba_antecedentes(Iguales)
+
     # Muestra por pantalla
     print("Reglas Totales: ", len(Iguales))
     print("Antecedente 1: ", A1)
@@ -399,6 +548,7 @@ def Training_3(File):
     # print("Triangulos AT5: ", AT5)
     # print("Divisor ATC: ", DivC)
     # print("Triangulos ATC: ", ATC)
+    #comprueba_antecedentes(Iguales)
     #print(Iguales)
     #print("Regla 1: ", etiquetado_3(Iguales[0],AT1,AT2,AT3,AT4,AT5,ATC))
 
@@ -407,6 +557,6 @@ def Controlador(FileL,FileR):
     Data = read_file(FileL)
     print(Reglas)
 
-Controlador("tst/delta_ail-5-1tst.dat","ReglasEtiquetadas3.txt")
-#Training_3("training/delta_ail-5-3tra.dat")
-#Training_5("training/delta_ail-5-2tra.dat")
+#Controlador("tst/delta_ail-5-1tst.dat","ReglasEtiquetadas3.txt")
+Training_3("training/delta_ail-5-3tra.dat", "ReglasEtiquetadas3.txt")
+#Training_5("training/delta_ail-5-2tra.dat", "ReglasEtiquetadas5.txt")
