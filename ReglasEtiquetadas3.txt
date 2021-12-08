@@ -1,0 +1,5 @@
+Medio, Medio, Medio, Medio, Alto, Medio
+Medio, Medio, Medio, Medio, Medio, Medio
+Alto, Medio, Medio, Bajo, Alto, Medio
+Medio, Medio, Bajo, Medio, Medio, Medio
+Alto, Bajo, Bajo, Bajo, Alto, Bajo
