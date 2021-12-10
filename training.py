@@ -1,6 +1,9 @@
 
 
+from pathlib import Path
+
 def read_file(File):
+    Path("./tmp").mkdir(parents=True, exist_ok=True)
     f = open(File, "r")
     lista = []
     while True:
@@ -14,6 +17,7 @@ def read_file(File):
     return lista
 
 def read_fileR(File):
+    Path("./tmp").mkdir(parents=True, exist_ok=True)
     f = open(File, "r")
     lista = []
     while True:
@@ -805,7 +809,8 @@ def main_3():
     P5 = Controlador_5("tst/delta_ail-5-5tst.dat","tmp/ReglasEtiquetadas3-5.txt")
     print("Error cuadrático Prueba 5: ", P5 )
 
-#Training_3_Grande()
+Training_5_Grande()
+Training_3_Grande()
 main_5()    
 main_3()
 #Training_5("training/delta_ail-5-2tra.dat", "tmp/ReglasEtiquetadas5.txt")
