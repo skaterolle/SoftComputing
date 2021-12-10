@@ -26,6 +26,19 @@ def read_fileR(File):
     f.close()
     return lista
 
+def read_min_max(File):
+    f = open(File, "r")
+    lista = []
+    while True:
+        line = f.readline()
+        if not line:
+            break
+        if "@attribute" in line:
+            numero = [str(x) for x in line.partition('[')[2].replace('[','').replace(']','').strip("[ \n").split(',')]
+            lista.append(numero)
+    f.close()
+    return lista
+
 #Escribe en un fichero pasado por parametro una lista pasada por parametro que sea de tipo float
 def write_fileT(File, list):
     f = open(File, "w")
@@ -107,7 +120,9 @@ def etiquetado_5(Regla, AT1, AT2, AT3, AT4, AT5, ATC):
     # Este sirve en el caso que queramos sacarlo mediante la suma de todos
     # emparejamiento = A1 + A2 + A3 + A4 + A5 + C
     # Minimo
-    emparejamiento = min(A1, A2, A3, A4, A5)
+    #emparejamiento = min(A1, A2, A3, A4, A5)
+    # Producto
+    emparejamiento = (A1 + A2 + A3 + A4 + A5 + C)/6
     Regla_R.append(emparejamiento)
     return Regla_R
     
@@ -130,6 +145,8 @@ def etiquetado_3(Regla, AT1, AT2, AT3, AT4, AT5, ATC):
     # emparejamiento = A1 + A2 + A3 + A4 + A5 + C
     # Minimo
     emparejamiento = min(A1, A2, A3, A4, A5)
+    # Producto
+    emparejamiento = (A1 + A2 + A3 + A4 + A5 + C)/6
     Regla_R.append(emparejamiento)
     return Regla_R
 
@@ -560,9 +577,40 @@ def Training_3(File, SaveFile):
 
 def Controlador(FileL,FileR):
     Reglas = read_fileR(FileR)
+    Min_Max = read_min_max(FileL)
+    #print(Min_Max)
     Data = read_file(FileL)
-    print(Reglas)
+    # Definición de variables de Minimos y Máximos
+    A1 = Min_Max[0]
+    A2 = Min_Max[1]
+    A3 = Min_Max[2]
+    A4 = Min_Max[3]
+    A5 = Min_Max[4]
+    C = Min_Max[5]
+    # Definición de variables de etiquetas
+    AT1 = []
+    AT2 = []
+    AT3 = []
+    AT4 = []
+    AT5 = []
+    porcentaje = 0
 
-#Controlador("tst/delta_ail-5-1tst.dat","tmp/ReglasEtiquetadas3.txt")
-Training_3("training/delta_ail-5-3tra.dat", "tmp/ReglasEtiquetadas3.txt")
+    # Saca los triangulos (Inicio y Final) de cada Antecedente y Consecuente y los guarda en una Lista
+    Div1 = (A1[1] - A1[0])/5
+    AT1 = [A1[0] , A1[0] + Div1, A1[0] + Div1*2, A1[0] + Div1*3, A1[0] + Div1*4, A1[0] + Div1*5]
+    Div2 = (A2[1] - A2[0])/5
+    AT2 = [A2[0] , A2[0] + Div2, A2[0] + Div2*2, A2[0] + Div2*3, A2[0] + Div2*4, A2[0] + Div2*5 + 0.000001] # Hay un fallo por lo que se reduce en centesimas 1 punto y hace que falle
+    Div3 = (A3[1] - A3[0])/5
+    AT3 = [A3[0] , A3[0] + Div3, A3[0] + Div3*2, A3[0] + Div3*3, A3[0] + Div3*4, A3[0] + Div3*5]
+    Div4 = (A4[1] - A4[0])/5
+    AT4 = [A4[0] , A4[0] + Div4, A4[0] + Div4*2, A4[0] + Div4*3, A4[0] + Div4*4, A4[0] + Div4*5]
+    Div5 = (A5[1] - A5[0])/5
+    AT5 = [A5[0] , A5[0] + Div5, A5[0] + Div5*2, A5[0] + Div5*3, A5[0] + Div5*4, A5[0] + Div5*5]
+    DivC = (C[1] - C[0])/5
+    ATC = [C[0] , C[0] + DivC, C[0] + DivC*2, C[0] + DivC*3, C[0] + DivC*4, C[0] + DivC*5]
+
+    #print(Reglas)
+
+Controlador("tst/delta_ail-5-1tst.dat","tmp/ReglasEtiquetadas5.txt")
+#Training_3("training/delta_ail-5-3tra.dat", "tmp/ReglasEtiquetadas3.txt")
 #Training_5("training/delta_ail-5-2tra.dat", "tmp/ReglasEtiquetadas5.txt")
