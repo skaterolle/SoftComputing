@@ -104,7 +104,10 @@ def etiquetado_5(Regla, AT1, AT2, AT3, AT4, AT5, ATC):
     A4 = matching_5(Regla[3],AT4, E4)
     A5 = matching_5(Regla[4],AT5, E5)
     C = matching_5(Regla[5],ATC, EC)
-    emparejamiento = A1 + A2 + A3 + A4 + A5 + C
+    # Este sirve en el caso que queramos sacarlo mediante la suma de todos
+    # emparejamiento = A1 + A2 + A3 + A4 + A5 + C
+    # Minimo
+    emparejamiento = min(A1, A2, A3, A4, A5)
     Regla_R.append(emparejamiento)
     return Regla_R
     
@@ -123,7 +126,10 @@ def etiquetado_3(Regla, AT1, AT2, AT3, AT4, AT5, ATC):
     A4 = matching_3(Regla[3],AT4, E4)
     A5 = matching_3(Regla[4],AT5, E5)
     C = matching_3(Regla[5],ATC, EC)
-    emparejamiento = A1 + A2 + A3 + A4 + A5 + C
+    # Este sirve en el caso que queramos sacarlo mediante la suma de todos
+    # emparejamiento = A1 + A2 + A3 + A4 + A5 + C
+    # Minimo
+    emparejamiento = min(A1, A2, A3, A4, A5)
     Regla_R.append(emparejamiento)
     return Regla_R
 
