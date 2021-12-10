@@ -1,6 +1,6 @@
 # Inicio variables globales
-Conjunto_Reglas_5 = "Reglas_5.dat"
-Conjunto_Reglas_3 = "Reglas_3.dat"
+Conjunto_Reglas_5 = "tmp/Reglas_5.dat"
+Conjunto_Reglas_3 = "tmp/Reglas_3.dat"
 
 def read_file_5(File):
     f = open(File, "r")

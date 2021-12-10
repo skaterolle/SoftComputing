@@ -557,6 +557,6 @@ def Controlador(FileL,FileR):
     Data = read_file(FileL)
     print(Reglas)
 
-#Controlador("tst/delta_ail-5-1tst.dat","ReglasEtiquetadas3.txt")
-Training_3("training/delta_ail-5-3tra.dat", "ReglasEtiquetadas3.txt")
-#Training_5("training/delta_ail-5-2tra.dat", "ReglasEtiquetadas5.txt")
+#Controlador("tst/delta_ail-5-1tst.dat","tmp/ReglasEtiquetadas3.txt")
+Training_3("training/delta_ail-5-3tra.dat", "tmp/ReglasEtiquetadas3.txt")
+#Training_5("training/delta_ail-5-2tra.dat", "tmp/ReglasEtiquetadas5.txt")
