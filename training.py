@@ -21,7 +21,7 @@ def read_fileR(File):
         if not line:
             break
         if line[0] != '@':
-            numero = [str(x) for x in line.rstrip('\n').split(',')]
+            numero = [str(x) for x in line.replace(' ','').rstrip('\n').split(',')]
             lista.append(numero)
     f.close()
     return lista
@@ -34,7 +34,7 @@ def read_min_max(File):
         if not line:
             break
         if "@attribute" in line:
-            numero = [str(x) for x in line.partition('[')[2].replace('[','').replace(']','').strip("[ \n").split(',')]
+            numero = [float(x) for x in line.partition('[')[2].replace('[','').replace(']','').strip("[ \n").split(',')]
             lista.append(numero)
     f.close()
     return lista
@@ -151,6 +151,7 @@ def etiquetado_3(Regla, AT1, AT2, AT3, AT4, AT5, ATC):
     return Regla_R
 
 # Devuelve el valor del matching dependiendo de 5 etiquetas
+# Num a comprobar, Lista de triangulo, etiqueta
 def matching_5(num, AT, E):
     T = []
     if E == "Bajo":
@@ -178,7 +179,7 @@ def matching_5(num, AT, E):
         medio = (AT[5] - AT[4])/2
         T.append(AT[4] + medio)
         T.append(AT[5])
-    
+
     if num < T[0]:
         return 0
     elif num > T[2]:
@@ -359,14 +360,15 @@ def Training_5(File, SaveFile):
     # Definición de variables de reglas
     Reglas_Iniciales = []
     Reglas_Etiquetadas = []
+    Min_Max = read_min_max(File)
     Iguales = []
     # Definición de variables de Minimos y Máximos
-    A1 = [0,0]
-    A2 = [0,0]
-    A3 = [0,0]
-    A4 = [0,0]
-    A5 = [0,0]
-    C = [0,0]
+    A1 = Min_Max[0]
+    A2 = Min_Max[1]
+    A3 = Min_Max[2]
+    A4 = Min_Max[3]
+    A5 = Min_Max[4]
+    C = Min_Max[5]
     # Definición de variables de etiquetas
     AT1 = []
     AT2 = []
@@ -380,19 +382,19 @@ def Training_5(File, SaveFile):
     for i in range(len(Reglas_Iniciales)):
         Regla = Reglas_Iniciales[i]
         encontrado = False
-        A1[0] = comparacion_menor(A1[0],Regla[0]) 
-        A2[0] = comparacion_menor(A2[0],Regla[1]) 
-        A3[0] = comparacion_menor(A3[0],Regla[2]) 
-        A4[0] = comparacion_menor(A4[0],Regla[3]) 
-        A5[0] = comparacion_menor(A5[0],Regla[4]) 
-        C[0] = comparacion_menor(C[0],Regla[5])
+        # A1[0] = comparacion_menor(A1[0],Regla[0]) 
+        # A2[0] = comparacion_menor(A2[0],Regla[1]) 
+        # A3[0] = comparacion_menor(A3[0],Regla[2]) 
+        # A4[0] = comparacion_menor(A4[0],Regla[3]) 
+        # A5[0] = comparacion_menor(A5[0],Regla[4]) 
+        # C[0] = comparacion_menor(C[0],Regla[5])
 
-        A1[1] = comparacion_mayor(A1[1],Regla[0]) 
-        A2[1] = comparacion_mayor(A2[1],Regla[1]) 
-        A3[1] = comparacion_mayor(A3[1],Regla[2]) 
-        A4[1] = comparacion_mayor(A4[1],Regla[3]) 
-        A5[1] = comparacion_mayor(A5[1],Regla[4]) 
-        C[1] = comparacion_mayor(C[1],Regla[5])
+        # A1[1] = comparacion_mayor(A1[1],Regla[0]) 
+        # A2[1] = comparacion_mayor(A2[1],Regla[1]) 
+        # A3[1] = comparacion_mayor(A3[1],Regla[2]) 
+        # A4[1] = comparacion_mayor(A4[1],Regla[3]) 
+        # A5[1] = comparacion_mayor(A5[1],Regla[4]) 
+        # C[1] = comparacion_mayor(C[1],Regla[5])
         if porcentaje < int((i*100)/len(Reglas_Iniciales)):
             porcentaje = int((i*100)/len(Reglas_Iniciales))
             print("Descartando Reglas iguales: ", porcentaje, "%")
@@ -469,14 +471,21 @@ def Training_3(File, SaveFile):
     # Definición de variables de reglas
     Reglas_Iniciales = []
     Reglas_Etiquetadas = []
+    Min_Max = read_min_max(File)
     Iguales = []
     # Definición de variables de Minimos y Máximos
-    A1 = [0,0]
-    A2 = [0,0]
-    A3 = [0,0]
-    A4 = [0,0]
-    A5 = [0,0]
-    C = [0,0]
+    # A1 = [0,0]
+    # A2 = [0,0]
+    # A3 = [0,0]
+    # A4 = [0,0]
+    # A5 = [0,0]
+    # C = [0,0]
+    A1 = Min_Max[0]
+    A2 = Min_Max[1]
+    A3 = Min_Max[2]
+    A4 = Min_Max[3]
+    A5 = Min_Max[4]
+    C = Min_Max[5]
     # Definición de variables de etiquetas
     AT1 = []
     AT2 = []
@@ -490,19 +499,19 @@ def Training_3(File, SaveFile):
     for i in range(len(Reglas_Iniciales)):
         Regla = Reglas_Iniciales[i]
         encontrado = False
-        A1[0] = comparacion_menor(A1[0],Regla[0]) 
-        A2[0] = comparacion_menor(A2[0],Regla[1]) 
-        A3[0] = comparacion_menor(A3[0],Regla[2]) 
-        A4[0] = comparacion_menor(A4[0],Regla[3]) 
-        A5[0] = comparacion_menor(A5[0],Regla[4]) 
-        C[0] = comparacion_menor(C[0],Regla[5])
+        # A1[0] = comparacion_menor(A1[0],Regla[0]) 
+        # A2[0] = comparacion_menor(A2[0],Regla[1]) 
+        # A3[0] = comparacion_menor(A3[0],Regla[2]) 
+        # A4[0] = comparacion_menor(A4[0],Regla[3]) 
+        # A5[0] = comparacion_menor(A5[0],Regla[4]) 
+        # C[0] = comparacion_menor(C[0],Regla[5])
 
-        A1[1] = comparacion_mayor(A1[1],Regla[0]) 
-        A2[1] = comparacion_mayor(A2[1],Regla[1]) 
-        A3[1] = comparacion_mayor(A3[1],Regla[2]) 
-        A4[1] = comparacion_mayor(A4[1],Regla[3]) 
-        A5[1] = comparacion_mayor(A5[1],Regla[4]) 
-        C[1] = comparacion_mayor(C[1],Regla[5])
+        # A1[1] = comparacion_mayor(A1[1],Regla[0]) 
+        # A2[1] = comparacion_mayor(A2[1],Regla[1]) 
+        # A3[1] = comparacion_mayor(A3[1],Regla[2]) 
+        # A4[1] = comparacion_mayor(A4[1],Regla[3]) 
+        # A5[1] = comparacion_mayor(A5[1],Regla[4]) 
+        # C[1] = comparacion_mayor(C[1],Regla[5])
         if porcentaje < int((i*100)/len(Reglas_Iniciales)):
             porcentaje = int((i*100)/len(Reglas_Iniciales))
             print("Descartando Reglas iguales: ", porcentaje, "%")
@@ -575,7 +584,7 @@ def Training_3(File, SaveFile):
     #print(Iguales)
     #print("Regla 1: ", etiquetado_3(Iguales[0],AT1,AT2,AT3,AT4,AT5,ATC))
 
-def Controlador(FileL,FileR):
+def Controlador_5(FileL,FileR):
     Reglas = read_fileR(FileR)
     Min_Max = read_min_max(FileL)
     #print(Min_Max)
@@ -594,7 +603,6 @@ def Controlador(FileL,FileR):
     AT4 = []
     AT5 = []
     porcentaje = 0
-
     # Saca los triangulos (Inicio y Final) de cada Antecedente y Consecuente y los guarda en una Lista
     Div1 = (A1[1] - A1[0])/5
     AT1 = [A1[0] , A1[0] + Div1, A1[0] + Div1*2, A1[0] + Div1*3, A1[0] + Div1*4, A1[0] + Div1*5]
@@ -608,9 +616,206 @@ def Controlador(FileL,FileR):
     AT5 = [A5[0] , A5[0] + Div5, A5[0] + Div5*2, A5[0] + Div5*3, A5[0] + Div5*4, A5[0] + Div5*5]
     DivC = (C[1] - C[0])/5
     ATC = [C[0] , C[0] + DivC, C[0] + DivC*2, C[0] + DivC*3, C[0] + DivC*4, C[0] + DivC*5]
-
+    
+    Estimado = Calcular_defuzzi_5(Reglas, Data, AT1, AT2, AT3, AT4, AT5, ATC)
+    
+    return Error_Cuadratico(Estimado, Data)
     #print(Reglas)
 
-Controlador("tst/delta_ail-5-1tst.dat","tmp/ReglasEtiquetadas5.txt")
-#Training_3("training/delta_ail-5-3tra.dat", "tmp/ReglasEtiquetadas3.txt")
+def Controlador_3(FileL,FileR):
+    Reglas = read_fileR(FileR)
+    Min_Max = read_min_max(FileL)
+    #print(Min_Max)
+    Data = read_file(FileL)
+    # Definición de variables de Minimos y Máximos
+    A1 = Min_Max[0]
+    A2 = Min_Max[1]
+    A3 = Min_Max[2]
+    A4 = Min_Max[3]
+    A5 = Min_Max[4]
+    C = Min_Max[5]
+    # Definición de variables de etiquetas
+    AT1 = []
+    AT2 = []
+    AT3 = []
+    AT4 = []
+    AT5 = []
+    porcentaje = 0
+    # Saca los triangulos (Inicio y Final) de cada Antecedente y Consecuente y los guarda en una Lista
+    Div1 = (A1[1] - A1[0])/3
+    AT1 = [A1[0] , A1[0] + Div1, A1[0] + Div1*2, A1[0] + Div1*3]
+    Div2 = (A2[1] - A2[0])/3
+    AT2 = [A2[0] , A2[0] + Div2, A2[0] + Div2*2, A2[0] + Div2*3]
+    Div3 = (A3[1] - A3[0])/3
+    AT3 = [A3[0] , A3[0] + Div3, A3[0] + Div3*2, A3[0] + Div3*3]
+    Div4 = (A4[1] - A4[0])/3
+    AT4 = [A4[0] , A4[0] + Div4, A4[0] + Div4*2, A4[0] + Div4*3]
+    Div5 = (A5[1] - A5[0])/3
+    AT5 = [A5[0] , A5[0] + Div5, A5[0] + Div5*2, A5[0] + Div5*3]
+    DivC = (C[1] - C[0])/3
+    ATC = [C[0] , C[0] + DivC, C[0] + DivC*2, C[0] + DivC*3]
+    
+    Estimado = Calcular_defuzzi_3(Reglas, Data, AT1, AT2, AT3, AT4, AT5, ATC)
+    
+    return Error_Cuadratico(Estimado, Data)
+    #print(Reglas)
+
+def Error_Cuadratico(Estimado, Real):
+    suma = 0
+    for i in range(len(Estimado)):
+        suma = Real[i][5] - Estimado[i]
+    Error = (suma * suma)/len(Estimado)
+    return Error
+
+
+def Calcular_defuzzi_5(Reglas, Datos, AT1, AT2, AT3, AT4, AT5, ATC):
+    deffu = []
+    for i in range(len(Datos)):
+        h = []
+        sumatorio_superior = 0
+        for j in range(len(Reglas)):
+            minimo = []
+            minimo.append(matching_5(Datos[i][0], AT1, Reglas[j][0]))
+            minimo.append(matching_5(Datos[i][1], AT2, Reglas[j][1]))
+            minimo.append(matching_5(Datos[i][2], AT3, Reglas[j][2]))
+            minimo.append(matching_5(Datos[i][3], AT4, Reglas[j][3]))
+            minimo.append(matching_5(Datos[i][4], AT5, Reglas[j][4]))
+            h.append(min(minimo))
+            if Reglas[j][5] == "Bajo":
+                PMV = (ATC[1] - ATC[0])/2
+            elif Reglas[j][5] == "Medio-Bajo":
+                PMV = (ATC[2] - ATC[1])/2
+            elif Reglas[j][5] == "Medio":
+                PMV = (ATC[3] - ATC[2])/2
+            elif Reglas[j][5] == "Medio-Alto":
+                PMV = (ATC[4] - ATC[3])/2
+            elif Reglas[j][5] == "Alto":
+                PMV = (ATC[5] - ATC[4])/2
+            suma = PMV * min(minimo)
+            sumatorio_superior = sumatorio_superior + suma
+            # print("PMV = ", PMV)
+            # print("Minimo = ", min(minimo))
+            # print("Sumatorio = ", sumatorio_superior)
+        # wait = input("Press Enter to continue.")
+        if sum(h) == 0:
+            resultado = 0
+        else:
+            resultado = sumatorio_superior/sum(h)
+        deffu.append(resultado)
+        # print("Sumatorio = ", sumatorio_superior)
+        # print("Dividendo = ", sum(h))
+        # print("Resultado = ", resultado)
+        # wait = input("Press Enter to continue.")
+    # print("Deffu = ", deffu)
+    # wait = input("Press Enter to continue.")
+    return deffu
+
+def Calcular_defuzzi_3(Reglas, Datos, AT1, AT2, AT3, AT4, AT5, ATC):
+    deffu = []
+    for i in range(len(Datos)):
+        h = []
+        sumatorio_superior = 0
+        for j in range(len(Reglas)):
+            minimo = []
+            minimo.append(matching_3(Datos[i][0], AT1, Reglas[j][0]))
+            minimo.append(matching_3(Datos[i][1], AT2, Reglas[j][1]))
+            minimo.append(matching_3(Datos[i][2], AT3, Reglas[j][2]))
+            minimo.append(matching_3(Datos[i][3], AT4, Reglas[j][3]))
+            minimo.append(matching_3(Datos[i][4], AT5, Reglas[j][4]))
+            h.append(min(minimo))
+            if Reglas[j][5] == "Bajo":
+                PMV = (ATC[1] - ATC[0])/2
+            elif Reglas[j][5] == "Medio":
+                PMV = (ATC[2] - ATC[1])/2
+            elif Reglas[j][5] == "Alto":
+                PMV = (ATC[3] - ATC[2])/2
+            suma = PMV * min(minimo)
+            sumatorio_superior = sumatorio_superior + suma
+        if sum(h) == 0:
+            resultado = 0
+        else:
+            resultado = sumatorio_superior/sum(h)
+        deffu.append(resultado)
+    return deffu       
+        
+def Training_5_Grande():
+    Training_5("training/delta_ail-5-1tra.dat", "tmp/ReglasEtiquetadas5-1.txt")
+    Training_5("training/delta_ail-5-2tra.dat", "tmp/ReglasEtiquetadas5-2.txt")
+    Training_5("training/delta_ail-5-3tra.dat", "tmp/ReglasEtiquetadas5-3.txt")
+    Training_5("training/delta_ail-5-4tra.dat", "tmp/ReglasEtiquetadas5-4.txt")
+    Training_5("training/delta_ail-5-5tra.dat", "tmp/ReglasEtiquetadas5-5.txt")
+
+def Training_3_Grande():
+    Training_3("training/delta_ail-5-1tra.dat", "tmp/ReglasEtiquetadas3-1.txt")
+    Training_3("training/delta_ail-5-2tra.dat", "tmp/ReglasEtiquetadas3-2.txt")
+    Training_3("training/delta_ail-5-3tra.dat", "tmp/ReglasEtiquetadas3-3.txt")
+    Training_3("training/delta_ail-5-4tra.dat", "tmp/ReglasEtiquetadas3-4.txt")
+    Training_3("training/delta_ail-5-5tra.dat", "tmp/ReglasEtiquetadas3-5.txt")
+
+# Pruebas de controlador para 5 etiquetas con los 5 test y las 5 pruebas
+def main_5():
+    print("Errores cuadráticos 5 Etiquetas: ")
+    print("--------------------")
+    E1 = Controlador_5("training/delta_ail-5-1tra.dat","tmp/ReglasEtiquetadas5-1.txt")
+    print("Error cuadrático Test 1: ", E1 )
+    E2 = Controlador_5("training/delta_ail-5-2tra.dat","tmp/ReglasEtiquetadas5-2.txt")
+    print("Error cuadrático Test 2: ", E2 )
+    E3 = Controlador_5("training/delta_ail-5-3tra.dat","tmp/ReglasEtiquetadas5-3.txt")
+    print("Error cuadrático Test 3: ", E3 )
+    E4 = Controlador_5("training/delta_ail-5-4tra.dat","tmp/ReglasEtiquetadas5-4.txt")
+    print("Error cuadrático Test 4: ", E4 )
+    E5 = Controlador_5("training/delta_ail-5-5tra.dat","tmp/ReglasEtiquetadas5-5.txt")
+    print("Error cuadrático Test 5: ", E5 )
+
+    
+    P1 = Controlador_5("tst/delta_ail-5-1tst.dat","tmp/ReglasEtiquetadas5-1.txt")
+    print("Error cuadrático Prueba 1: ", P1 )
+    P2 = Controlador_5("tst/delta_ail-5-2tst.dat","tmp/ReglasEtiquetadas5-2.txt")
+    print("Error cuadrático Prueba 2: ", P2 )
+    P3 = Controlador_5("tst/delta_ail-5-3tst.dat","tmp/ReglasEtiquetadas5-3.txt")
+    print("Error cuadrático Prueba 3: ", P3 )
+    P4 = Controlador_5("tst/delta_ail-5-4tst.dat","tmp/ReglasEtiquetadas5-4.txt")
+    print("Error cuadrático Prueba 4: ", P4 )
+    P5 = Controlador_5("tst/delta_ail-5-5tst.dat","tmp/ReglasEtiquetadas5-5.txt")
+    print("Error cuadrático Prueba 5: ", P5 )
+
+# Pruebas de controlador para 3 etiquetas con los 5 test y las 5 pruebas
+def main_3():
+    print("Errores cuadráticos 3 Etiquetastiquetas: ")
+    print("--------------------")
+    E1 = Controlador_5("training/delta_ail-5-1tra.dat","tmp/ReglasEtiquetadas3-1.txt")
+    print("Error cuadrático Test 1: ", E1 )
+    E2 = Controlador_5("training/delta_ail-5-2tra.dat","tmp/ReglasEtiquetadas3-2.txt")
+    print("Error cuadrático Test 2: ", E2 )
+    E3 = Controlador_5("training/delta_ail-5-3tra.dat","tmp/ReglasEtiquetadas3-3.txt")
+    print("Error cuadrático Test 3: ", E3 )
+    E4 = Controlador_5("training/delta_ail-5-4tra.dat","tmp/ReglasEtiquetadas3-4.txt")
+    print("Error cuadrático Test 4: ", E4 )
+    E5 = Controlador_5("training/delta_ail-5-5tra.dat","tmp/ReglasEtiquetadas3-5.txt")
+    print("Error cuadrático Test 5: ", E5 )
+
+    P1 = Controlador_5("tst/delta_ail-5-1tst.dat","tmp/ReglasEtiquetadas3-1.txt")
+    print("Error cuadrático Prueba 1: ", P1 )
+    P2 = Controlador_5("tst/delta_ail-5-2tst.dat","tmp/ReglasEtiquetadas3-2.txt")
+    print("Error cuadrático Prueba 2: ", P2 )
+    P3 = Controlador_5("tst/delta_ail-5-3tst.dat","tmp/ReglasEtiquetadas3-3.txt")
+    print("Error cuadrático Prueba 3: ", P3 )
+    P4 = Controlador_5("tst/delta_ail-5-4tst.dat","tmp/ReglasEtiquetadas3-4.txt")
+    print("Error cuadrático Prueba 4: ", P4 )
+    P5 = Controlador_5("tst/delta_ail-5-5tst.dat","tmp/ReglasEtiquetadas3-5.txt")
+    print("Error cuadrático Prueba 5: ", P5 )
+
+#Training_3_Grande()
+main_5()    
+main_3()
 #Training_5("training/delta_ail-5-2tra.dat", "tmp/ReglasEtiquetadas5.txt")
+#Controlador("tst/delta_ail-5-1tst.dat","tmp/ReglasEtiquetadas5.txt")
+#Controlador("training/delta_ail-5-2tra.dat","tmp/ReglasEtiquetadas5.txt")
+#Training_3("training/delta_ail-5-3tra.dat", "tmp/ReglasEtiquetadas3.txt")
+
+
+
+
+
+
+
