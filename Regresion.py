@@ -58,7 +58,6 @@ def write_fileTSTR(File, list):
     f = open(File, "w")
     for x in range(len(list)):
         for y in range(len(list[x])):
-            #print(list[x][y])
             f.write(list[x][y])
             if y < (len(list[x]) - 1):
                 f.write(", ")
@@ -234,14 +233,12 @@ def Descarta_Iguales(texto, Reglas_Iniciales):
         encontrado = False
         if porcentaje < int((i*100)/len(Reglas_Iniciales)):
             porcentaje = int((i*100)/len(Reglas_Iniciales))
-            print(texto, porcentaje, "%")
+            #print(texto, porcentaje, "%")
         for j in range(len(Iguales)):
             Igual = Iguales[j]
             if (Regla[0] == Igual[0]) and (Regla[1] == Igual[1]) and (Regla[2] == Igual[2]) and (Regla[3] == Igual[3]) and (Regla[4] == Igual[4]) and (Regla[5] == Igual[5]):
-            #if set(Regla) == set(Igual):
                 encontrado = True
         if not encontrado:
-            #print(i)
             Iguales.append(Regla)
     return Iguales
 
@@ -267,9 +264,6 @@ def comprueba_Reglas(List):
         encontrado = False
         for y in range(len(Reglas_Afinadas)):
             if (List[x][0] == Reglas_Afinadas[y][0]) and (List[x][1] == Reglas_Afinadas[y][1]) and (List[x][2] == Reglas_Afinadas[y][2]) and (List[x][3] == Reglas_Afinadas[y][3]) and (List[x][4] == Reglas_Afinadas[y][4]):
-                # print("Iguales, X = ", x, " Y = ", y)
-                # print("X = ", List[x][:-1], " Matching = ", List[x][6])
-                # print("Y = ", Reglas_Afinadas[y][:-1], " Matching = ", Reglas_Afinadas[y][6])
                 encontrado = True
                 if List[x][6] > Reglas_Afinadas[y][6]:
                     Reglas_Afinadas.pop(y)
@@ -280,85 +274,6 @@ def comprueba_Reglas(List):
     for x in range(len(Reglas_Afinadas)):
         Reglas.append(Reglas_Afinadas[x][:-1])
     return Reglas
-
-def prueba1(File):
-    # Definición de variables de reglas
-    Reglas_Iniciales = []
-    Iguales = []
-    # Definición de variables de Minimos y Máximos
-    A1 = [0,0]
-    A2 = [0,0]
-    A3 = [0,0]
-    A4 = [0,0]
-    A5 = [0,0]
-    C = [0,0]
-    # Definición de variables de etiquetas
-    AT1 = []
-    AT2 = []
-    AT3 = []
-    AT4 = []
-    AT5 = []
-    Reglas_Iniciales = read_file(File)
-    porcentaje = 0
-    for i in range(len(Reglas_Iniciales)):
-        Regla = Reglas_Iniciales[i]
-        encontrado = False
-        A1[0] = comparacion_menor(A1[0],Regla[0]) 
-        A2[0] = comparacion_menor(A2[0],Regla[1]) 
-        A3[0] = comparacion_menor(A3[0],Regla[2]) 
-        A4[0] = comparacion_menor(A4[0],Regla[3]) 
-        A5[0] = comparacion_menor(A5[0],Regla[4]) 
-        C[0] = comparacion_menor(C[0],Regla[5])
-
-        A1[1] = comparacion_mayor(A1[1],Regla[0]) 
-        A2[1] = comparacion_mayor(A2[1],Regla[1]) 
-        A3[1] = comparacion_mayor(A3[1],Regla[2]) 
-        A4[1] = comparacion_mayor(A4[1],Regla[3]) 
-        A5[1] = comparacion_mayor(A5[1],Regla[4]) 
-        C[1] = comparacion_mayor(C[1],Regla[5])
-        if porcentaje < int((i*100)/len(Reglas_Iniciales)):
-            porcentaje = int((i*100)/len(Reglas_Iniciales))
-            print("Descartando Reglas iguales: ", porcentaje, "%")
-        for j in range(len(Iguales)):
-            Igual = Iguales[j]
-            if set(Regla) == set(Igual):
-                encontrado = True
-        if not encontrado:
-            Iguales.append(Regla)
-    Div1 = (A1[1] - A1[0])/5
-    AT1 = [A1[0] , A1[0] + Div1, A1[0] + Div1*2, A1[0] + Div1*3, A1[0] + Div1*4, A1[0] + Div1*5]
-    Div2 = (A2[1] - A2[0])/5
-    AT2 = [A2[0] , A2[0] + Div2, A2[0] + Div2*2, A2[0] + Div2*3, A2[0] + Div2*4, A2[0] + Div2*5]
-    Div3 = (A3[1] - A3[0])/5
-    AT3 = [A3[0] , A3[0] + Div3, A3[0] + Div3*2, A3[0] + Div3*3, A3[0] + Div3*4, A3[0] + Div3*5]
-    Div4 = (A4[1] - A4[0])/5
-    AT4 = [A4[0] , A4[0] + Div4, A4[0] + Div4*2, A4[0] + Div4*3, A4[0] + Div4*4, A4[0] + Div4*5]
-    Div5 = (A5[1] - A5[0])/5
-    AT5 = [A5[0] , A5[0] + Div5, A5[0] + Div5*2, A5[0] + Div5*3, A5[0] + Div5*4, A5[0] + Div5*5]
-    DivC = (C[1] - C[0])/5
-    ATC = [C[0] , C[0] + DivC, C[0] + DivC*2, C[0] + DivC*3, C[0] + DivC*4, C[0] + DivC*5]
-
-    # Muestra por pantalla
-    print("Reglas Totales: ", len(Iguales))
-    print("Antecedente 1: ", A1)
-    print("Antecedente 2: ", A2)
-    print("Antecedente 3: ", A3)
-    print("Antecedente 4: ", A4)
-    print("Antecedente 5: ", A5)
-    print("Consecuente: ", C)
-    print("Divisor AT1: ", Div1)
-    print("Triangulos AT1: ", AT1)
-    print("Divisor AT2: ", Div2)
-    print("Triangulos AT2: ", AT2)
-    print("Divisor AT3: ", Div3)
-    print("Triangulos AT3: ", AT3)
-    print("Divisor AT4: ", Div4)
-    print("Triangulos AT4: ", AT4)
-    print("Divisor AT5: ", Div5)
-    print("Triangulos AT5: ", AT5)
-    print("Divisor ATC: ", DivC)
-    print("Triangulos ATC: ", ATC)
-    print("Regla 1: ", etiquetado_5(Iguales[0],AT1,AT2,AT3,AT4,AT5,ATC))
 
 def Training_5(File, SaveFile):
     # Definición de variables de reglas
@@ -386,26 +301,12 @@ def Training_5(File, SaveFile):
     for i in range(len(Reglas_Iniciales)):
         Regla = Reglas_Iniciales[i]
         encontrado = False
-        # A1[0] = comparacion_menor(A1[0],Regla[0]) 
-        # A2[0] = comparacion_menor(A2[0],Regla[1]) 
-        # A3[0] = comparacion_menor(A3[0],Regla[2]) 
-        # A4[0] = comparacion_menor(A4[0],Regla[3]) 
-        # A5[0] = comparacion_menor(A5[0],Regla[4]) 
-        # C[0] = comparacion_menor(C[0],Regla[5])
-
-        # A1[1] = comparacion_mayor(A1[1],Regla[0]) 
-        # A2[1] = comparacion_mayor(A2[1],Regla[1]) 
-        # A3[1] = comparacion_mayor(A3[1],Regla[2]) 
-        # A4[1] = comparacion_mayor(A4[1],Regla[3]) 
-        # A5[1] = comparacion_mayor(A5[1],Regla[4]) 
-        # C[1] = comparacion_mayor(C[1],Regla[5])
         if porcentaje < int((i*100)/len(Reglas_Iniciales)):
             porcentaje = int((i*100)/len(Reglas_Iniciales))
-            print("Descartando Reglas iguales: ", porcentaje, "%")
+            #print("Descartando Reglas iguales: ", porcentaje, "%")
         for j in range(len(Iguales)):
             Igual = Iguales[j]
             if (Regla[0] == Igual[0]) and (Regla[1] == Igual[1]) and (Regla[2] == Igual[2]) and (Regla[3] == Igual[3]) and (Regla[4] == Igual[4]) and (Regla[5] == Igual[5]):
-            #if set(Regla) == set(Igual): Esto está mal, ya que no comprueba si son iguales, sino si dentro de la Lista contienen los mismos elementos sin que estén en el mismo orden
                 encontrado = True
         if not encontrado:
             Iguales.append(Regla)
@@ -432,10 +333,8 @@ def Training_5(File, SaveFile):
     for x in range(len(Reglas_Iniciales)):
         if porcentaje < int((i*100)/len(Reglas_Iniciales)):
             porcentaje = int((i*100)/len(Reglas_Iniciales))
-            print("Etiquetando Reglas: ", porcentaje, "%")
+            #print("Etiquetando Reglas: ", porcentaje, "%")
         Reglas_Etiquetadas.append(etiquetado_5(Reglas_Iniciales[x],AT1,AT2,AT3,AT4,AT5,ATC))
-    #Iguales = Reglas_Etiquetadas
-    #for x in range(len(Reglas_Etiquetadas)):
     Iguales = Descarta_Iguales("Descartando Iguales: ",Reglas_Etiquetadas)
 
     Reglas_Iniciales = Iguales
@@ -448,28 +347,9 @@ def Training_5(File, SaveFile):
     comprueba_antecedentes(Iguales)
 
     # Muestra por pantalla
-    print("Reglas Totales: ", len(Iguales))
-    print("Antecedente 1: ", A1)
-    print("Antecedente 2: ", A2)
-    print("Antecedente 3: ", A3)
-    print("Antecedente 4: ", A4)
-    print("Antecedente 5: ", A5)
-    print("Consecuente: ", C)
-    # print("Divisor AT1: ", Div1)
-    # print("Triangulos AT1: ", AT1)
-    # print("Divisor AT2: ", Div2)
-    # print("Triangulos AT2: ", AT2)
-    # print("Divisor AT3: ", Div3)
-    # print("Triangulos AT3: ", AT3)
-    # print("Divisor AT4: ", Div4)
-    # print("Triangulos AT4: ", AT4)
-    # print("Divisor AT5: ", Div5)
-    # print("Triangulos AT5: ", AT5)
-    # print("Divisor ATC: ", DivC)
-    # print("Triangulos ATC: ", ATC)
-    #print(Iguales[1][:-1]) # El [:-1] hace que sea la lista menos el último elemento
-    #print(Iguales)
-    #print("Regla 1: ", etiquetado_5(Iguales[0],AT1,AT2,AT3,AT4,AT5,ATC))
+    #print("Reglas Totales: ", len(Iguales))
+    # Devuelve el número de Reglas
+    return len(Iguales)
 
 def Training_3(File, SaveFile):
     # Definición de variables de reglas
@@ -478,12 +358,6 @@ def Training_3(File, SaveFile):
     Min_Max = read_min_max(File)
     Iguales = []
     # Definición de variables de Minimos y Máximos
-    # A1 = [0,0]
-    # A2 = [0,0]
-    # A3 = [0,0]
-    # A4 = [0,0]
-    # A5 = [0,0]
-    # C = [0,0]
     A1 = Min_Max[0]
     A2 = Min_Max[1]
     A3 = Min_Max[2]
@@ -503,26 +377,12 @@ def Training_3(File, SaveFile):
     for i in range(len(Reglas_Iniciales)):
         Regla = Reglas_Iniciales[i]
         encontrado = False
-        # A1[0] = comparacion_menor(A1[0],Regla[0]) 
-        # A2[0] = comparacion_menor(A2[0],Regla[1]) 
-        # A3[0] = comparacion_menor(A3[0],Regla[2]) 
-        # A4[0] = comparacion_menor(A4[0],Regla[3]) 
-        # A5[0] = comparacion_menor(A5[0],Regla[4]) 
-        # C[0] = comparacion_menor(C[0],Regla[5])
-
-        # A1[1] = comparacion_mayor(A1[1],Regla[0]) 
-        # A2[1] = comparacion_mayor(A2[1],Regla[1]) 
-        # A3[1] = comparacion_mayor(A3[1],Regla[2]) 
-        # A4[1] = comparacion_mayor(A4[1],Regla[3]) 
-        # A5[1] = comparacion_mayor(A5[1],Regla[4]) 
-        # C[1] = comparacion_mayor(C[1],Regla[5])
         if porcentaje < int((i*100)/len(Reglas_Iniciales)):
             porcentaje = int((i*100)/len(Reglas_Iniciales))
-            print("Descartando Reglas iguales: ", porcentaje, "%")
+            #print("Descartando Reglas iguales: ", porcentaje, "%")
         for j in range(len(Iguales)):
             Igual = Iguales[j]
             if (Regla[0] == Igual[0]) and (Regla[1] == Igual[1]) and (Regla[2] == Igual[2]) and (Regla[3] == Igual[3]) and (Regla[4] == Igual[4]) and (Regla[5] == Igual[5]):
-            #if set(Regla) == set(Igual): Esto está mal, ya que no comprueba si son iguales, sino si dentro de la Lista contienen los mismos elementos sin que estén en el mismo orden
                 encontrado = True
         if not encontrado:
             Iguales.append(Regla)
@@ -549,10 +409,9 @@ def Training_3(File, SaveFile):
     for x in range(len(Reglas_Iniciales)):
         if porcentaje < int((i*100)/len(Reglas_Iniciales)):
             porcentaje = int((i*100)/len(Reglas_Iniciales))
-            print("Etiquetando Reglas: ", porcentaje, "%")
+            #print("Etiquetando Reglas: ", porcentaje, "%")
         Reglas_Etiquetadas.append(etiquetado_3(Reglas_Iniciales[x],AT1,AT2,AT3,AT4,AT5,ATC))
 
-    #for x in range(len(Reglas_Etiquetadas)):
     Iguales = Descarta_Iguales("Descartando Iguales: ",Reglas_Etiquetadas)
 
     Reglas_Iniciales = Iguales
@@ -565,33 +424,13 @@ def Training_3(File, SaveFile):
     comprueba_antecedentes(Iguales)
 
     # Muestra por pantalla
-    print("Reglas Totales: ", len(Iguales))
-    print("Antecedente 1: ", A1)
-    print("Antecedente 2: ", A2)
-    print("Antecedente 3: ", A3)
-    print("Antecedente 4: ", A4)
-    print("Antecedente 5: ", A5)
-    print("Consecuente: ", C)
-    # print("Divisor AT1: ", Div1)
-    # print("Triangulos AT1: ", AT1)
-    # print("Divisor AT2: ", Div2)
-    # print("Triangulos AT2: ", AT2)
-    # print("Divisor AT3: ", Div3)
-    # print("Triangulos AT3: ", AT3)
-    # print("Divisor AT4: ", Div4)
-    # print("Triangulos AT4: ", AT4)
-    # print("Divisor AT5: ", Div5)
-    # print("Triangulos AT5: ", AT5)
-    # print("Divisor ATC: ", DivC)
-    # print("Triangulos ATC: ", ATC)
-    #comprueba_antecedentes(Iguales)
-    #print(Iguales)
-    #print("Regla 1: ", etiquetado_3(Iguales[0],AT1,AT2,AT3,AT4,AT5,ATC))
+    #print("Reglas Totales: ", len(Iguales))
+    # Devuelve el número de reglas
+    return len(Iguales)
 
 def Controlador_5(FileL,FileR):
     Reglas = read_fileR(FileR)
     Min_Max = read_min_max(FileL)
-    #print(Min_Max)
     Data = read_file(FileL)
     # Definición de variables de Minimos y Máximos
     A1 = Min_Max[0]
@@ -629,7 +468,6 @@ def Controlador_5(FileL,FileR):
 def Controlador_3(FileL,FileR):
     Reglas = read_fileR(FileR)
     Min_Max = read_min_max(FileL)
-    #print(Min_Max)
     Data = read_file(FileL)
     # Definición de variables de Minimos y Máximos
     A1 = Min_Max[0]
@@ -697,21 +535,11 @@ def Calcular_defuzzi_5(Reglas, Datos, AT1, AT2, AT3, AT4, AT5, ATC):
                 PMV = (ATC[5] - ATC[4])/2
             suma = PMV * min(minimo)
             sumatorio_superior = sumatorio_superior + suma
-            # print("PMV = ", PMV)
-            # print("Minimo = ", min(minimo))
-            # print("Sumatorio = ", sumatorio_superior)
-        # wait = input("Press Enter to continue.")
         if sum(h) == 0:
             resultado = 0
         else:
             resultado = sumatorio_superior/sum(h)
         deffu.append(resultado)
-        # print("Sumatorio = ", sumatorio_superior)
-        # print("Dividendo = ", sum(h))
-        # print("Resultado = ", resultado)
-        # wait = input("Press Enter to continue.")
-    # print("Deffu = ", deffu)
-    # wait = input("Press Enter to continue.")
     return deffu
 
 def Calcular_defuzzi_3(Reglas, Datos, AT1, AT2, AT3, AT4, AT5, ATC):
@@ -743,71 +571,100 @@ def Calcular_defuzzi_3(Reglas, Datos, AT1, AT2, AT3, AT4, AT5, ATC):
     return deffu       
         
 def Training_5_Grande():
-    Training_5("training/delta_ail-5-1tra.dat", "tmp/ReglasEtiquetadas5-1.txt")
-    Training_5("training/delta_ail-5-2tra.dat", "tmp/ReglasEtiquetadas5-2.txt")
-    Training_5("training/delta_ail-5-3tra.dat", "tmp/ReglasEtiquetadas5-3.txt")
-    Training_5("training/delta_ail-5-4tra.dat", "tmp/ReglasEtiquetadas5-4.txt")
-    Training_5("training/delta_ail-5-5tra.dat", "tmp/ReglasEtiquetadas5-5.txt")
+    print("Reglas aprendidas con 5 etiquetas: ")
+    print("----------------------------------\n")
+    Reglas1 = Training_5("training/delta_ail-5-1tra.dat", "tmp/ReglasEtiquetadas5-1.txt")
+    print("Reglas de la primera partición: ", Reglas1)
+    Reglas2 = Training_5("training/delta_ail-5-2tra.dat", "tmp/ReglasEtiquetadas5-2.txt")
+    print("Reglas de la segunda partición: ", Reglas2)
+    Reglas3 = Training_5("training/delta_ail-5-3tra.dat", "tmp/ReglasEtiquetadas5-3.txt")
+    print("Reglas de la tercera partición: ", Reglas3)
+    Reglas4 = Training_5("training/delta_ail-5-4tra.dat", "tmp/ReglasEtiquetadas5-4.txt")
+    print("Reglas de la cuarta partición: ", Reglas4)
+    Reglas5 = Training_5("training/delta_ail-5-5tra.dat", "tmp/ReglasEtiquetadas5-5.txt")
+    print("Reglas de la quinta partición: ", Reglas5)
+    media = (Reglas1 + Reglas2 + Reglas3 + Reglas4 + Reglas5)/5
+    print("\nMedia de reglas con 5 etiquetas: ", media)
 
 def Training_3_Grande():
-    Training_3("training/delta_ail-5-1tra.dat", "tmp/ReglasEtiquetadas3-1.txt")
-    Training_3("training/delta_ail-5-2tra.dat", "tmp/ReglasEtiquetadas3-2.txt")
-    Training_3("training/delta_ail-5-3tra.dat", "tmp/ReglasEtiquetadas3-3.txt")
-    Training_3("training/delta_ail-5-4tra.dat", "tmp/ReglasEtiquetadas3-4.txt")
-    Training_3("training/delta_ail-5-5tra.dat", "tmp/ReglasEtiquetadas3-5.txt")
+    print("\nReglas aprendidas con 3 etiquetas:")
+    print("------------------------------------\n")
+    Reglas1 = Training_3("training/delta_ail-5-1tra.dat", "tmp/ReglasEtiquetadas3-1.txt")
+    print("Reglas de la primera partición: ", Reglas1)
+    Reglas2 = Training_3("training/delta_ail-5-2tra.dat", "tmp/ReglasEtiquetadas3-2.txt")
+    print("Reglas de la segunda partición: ", Reglas2)
+    Reglas3 = Training_3("training/delta_ail-5-3tra.dat", "tmp/ReglasEtiquetadas3-3.txt")
+    print("Reglas de la tercera partición: ", Reglas3)
+    Reglas4 = Training_3("training/delta_ail-5-4tra.dat", "tmp/ReglasEtiquetadas3-4.txt")
+    print("Reglas de la cuarta partición: ", Reglas4)
+    Reglas5 = Training_3("training/delta_ail-5-5tra.dat", "tmp/ReglasEtiquetadas3-5.txt")
+    print("Reglas de la quinta partición: ", Reglas5)
+    media = (Reglas1 + Reglas2 + Reglas3 + Reglas4 + Reglas5)/5
+    print("\nMedia de reglas con 3 etiquetas: ", media)
 
 # Pruebas de controlador para 5 etiquetas con los 5 test y las 5 pruebas
 def main_5():
-    print("Errores cuadráticos 5 Etiquetas: ")
+    print("\nErrores cuadráticos 5 Etiquetas: ")
     print("--------------------")
+    print("Training: ")
     E1 = Controlador_5("training/delta_ail-5-1tra.dat","tmp/ReglasEtiquetadas5-1.txt")
-    print("Error cuadrático Test 1: ", E1 )
+    print("Error cuadrático Training 1: ", E1 )
     E2 = Controlador_5("training/delta_ail-5-2tra.dat","tmp/ReglasEtiquetadas5-2.txt")
-    print("Error cuadrático Test 2: ", E2 )
+    print("Error cuadrático Training 2: ", E2 )
     E3 = Controlador_5("training/delta_ail-5-3tra.dat","tmp/ReglasEtiquetadas5-3.txt")
-    print("Error cuadrático Test 3: ", E3 )
+    print("Error cuadrático Training 3: ", E3 )
     E4 = Controlador_5("training/delta_ail-5-4tra.dat","tmp/ReglasEtiquetadas5-4.txt")
-    print("Error cuadrático Test 4: ", E4 )
+    print("Error cuadrático Training 4: ", E4 )
     E5 = Controlador_5("training/delta_ail-5-5tra.dat","tmp/ReglasEtiquetadas5-5.txt")
-    print("Error cuadrático Test 5: ", E5 )
+    print("Error cuadrático Training 5: ", E5 )
+    media = (E1 + E2 + E3 + E4 + E5)/5
+    print("\nMedia de Errores cuadráticos para 5 etiquetas de Training: ", media)
 
-    
+    print("\nTest: ")
     P1 = Controlador_5("tst/delta_ail-5-1tst.dat","tmp/ReglasEtiquetadas5-1.txt")
-    print("Error cuadrático Prueba 1: ", P1 )
+    print("Error cuadrático Test 1: ", P1 )
     P2 = Controlador_5("tst/delta_ail-5-2tst.dat","tmp/ReglasEtiquetadas5-2.txt")
-    print("Error cuadrático Prueba 2: ", P2 )
+    print("Error cuadrático Test 2: ", P2 )
     P3 = Controlador_5("tst/delta_ail-5-3tst.dat","tmp/ReglasEtiquetadas5-3.txt")
-    print("Error cuadrático Prueba 3: ", P3 )
+    print("Error cuadrático Test 3: ", P3 )
     P4 = Controlador_5("tst/delta_ail-5-4tst.dat","tmp/ReglasEtiquetadas5-4.txt")
-    print("Error cuadrático Prueba 4: ", P4 )
+    print("Error cuadrático Test4: ", P4 )
     P5 = Controlador_5("tst/delta_ail-5-5tst.dat","tmp/ReglasEtiquetadas5-5.txt")
-    print("Error cuadrático Prueba 5: ", P5 )
+    print("Error cuadrático Test 5: ", P5 )
+    media = (P1 + P2 + P3 + P4 + P5)/5
+    print("\nMedia de Errores cuadráticos para 5 etiquetas de Test: ", media)
 
 # Pruebas de controlador para 3 etiquetas con los 5 test y las 5 pruebas
 def main_3():
     print("Errores cuadráticos 3 Etiquetastiquetas: ")
     print("--------------------")
+    print("Training: ")
     E1 = Controlador_5("training/delta_ail-5-1tra.dat","tmp/ReglasEtiquetadas3-1.txt")
-    print("Error cuadrático Test 1: ", E1 )
+    print("Error cuadrático Training 1: ", E1 )
     E2 = Controlador_5("training/delta_ail-5-2tra.dat","tmp/ReglasEtiquetadas3-2.txt")
-    print("Error cuadrático Test 2: ", E2 )
+    print("Error cuadrático Training 2: ", E2 )
     E3 = Controlador_5("training/delta_ail-5-3tra.dat","tmp/ReglasEtiquetadas3-3.txt")
-    print("Error cuadrático Test 3: ", E3 )
+    print("Error cuadrático Training 3: ", E3 )
     E4 = Controlador_5("training/delta_ail-5-4tra.dat","tmp/ReglasEtiquetadas3-4.txt")
-    print("Error cuadrático Test 4: ", E4 )
+    print("Error cuadrático Training 4: ", E4 )
     E5 = Controlador_5("training/delta_ail-5-5tra.dat","tmp/ReglasEtiquetadas3-5.txt")
-    print("Error cuadrático Test 5: ", E5 )
+    print("Error cuadrático Training 5: ", E5 )
+    media = (E1 + E2 + E3 + E4 + E5)/5
+    print("\nMedia de Errores cuadráticos para 3 etiquetas de Training: ", media)
 
+    print("\nTest: ")
     P1 = Controlador_5("tst/delta_ail-5-1tst.dat","tmp/ReglasEtiquetadas3-1.txt")
-    print("Error cuadrático Prueba 1: ", P1 )
+    print("Error cuadrático Test 1: ", P1 )
     P2 = Controlador_5("tst/delta_ail-5-2tst.dat","tmp/ReglasEtiquetadas3-2.txt")
-    print("Error cuadrático Prueba 2: ", P2 )
+    print("Error cuadrático Test 2: ", P2 )
     P3 = Controlador_5("tst/delta_ail-5-3tst.dat","tmp/ReglasEtiquetadas3-3.txt")
-    print("Error cuadrático Prueba 3: ", P3 )
+    print("Error cuadrático Test 3: ", P3 )
     P4 = Controlador_5("tst/delta_ail-5-4tst.dat","tmp/ReglasEtiquetadas3-4.txt")
-    print("Error cuadrático Prueba 4: ", P4 )
+    print("Error cuadrático Test 4: ", P4 )
     P5 = Controlador_5("tst/delta_ail-5-5tst.dat","tmp/ReglasEtiquetadas3-5.txt")
-    print("Error cuadrático Prueba 5: ", P5 )
+    print("Error cuadrático Test 5: ", P5 )
+    media = (P1 + P2 + P3 + P4 + P5)/5
+    print("\nMedia de Errores cuadráticos para 3 etiquetas de Test: ", media)
 
 Training_5_Grande()
 Training_3_Grande()
