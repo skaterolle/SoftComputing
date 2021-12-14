@@ -1,2 +1,4 @@
 # Ignorar carpeta tmp ya que con cada interacción del training se deben reiniciar dependiendo del archivo
 /tmp/*.txt
+/Regresion/tmp/*
+/Clasificador/tmp/*
