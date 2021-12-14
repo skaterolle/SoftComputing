@@ -126,7 +126,7 @@ def etiquetado_5(Regla, AT1, AT2, AT3, AT4, AT5, ATC):
     # Minimo
     #emparejamiento = min(A1, A2, A3, A4, A5)
     # Producto
-    emparejamiento = (A1 + A2 + A3 + A4 + A5 + C)/6
+    emparejamiento = (A1 * A2 * A3 * A4 * A5 * C)
     Regla_R.append(emparejamiento)
     return Regla_R
     
@@ -148,9 +148,9 @@ def etiquetado_3(Regla, AT1, AT2, AT3, AT4, AT5, ATC):
     # Este sirve en el caso que queramos sacarlo mediante la suma de todos
     # emparejamiento = A1 + A2 + A3 + A4 + A5 + C
     # Minimo
-    emparejamiento = min(A1, A2, A3, A4, A5)
+    #emparejamiento = min(A1, A2, A3, A4, A5)
     # Producto
-    emparejamiento = (A1 + A2 + A3 + A4 + A5 + C)/6
+    emparejamiento = (A1 * A2 * A3 * A4 * A5 * C)
     Regla_R.append(emparejamiento)
     return Regla_R
 
