@@ -556,14 +556,22 @@ def Controlador_3(FileL,FileR):
     A3 = Min_Max[2]
     A4 = Min_Max[3]
     A5 = Min_Max[4]
-    C = Min_Max[5]
+    A6 = Min_Max[5]
+    A7 = Min_Max[6]
+    A8 = Min_Max[7]
+    A9 = Min_Max[8]
+    C = Min_Max[9]
     # Definición de variables de etiquetas
     AT1 = []
     AT2 = []
     AT3 = []
     AT4 = []
     AT5 = []
-    porcentaje = 0
+    AT6 = []
+    AT7 = []
+    AT8 = []
+    AT9 = []
+
     # Saca los triangulos (Inicio y Final) de cada Antecedente y Consecuente y los guarda en una Lista
     Div1 = (A1[1] - A1[0])/3
     AT1 = [A1[0] , A1[0] + Div1, A1[0] + Div1*2, A1[0] + Div1*3]
@@ -575,12 +583,20 @@ def Controlador_3(FileL,FileR):
     AT4 = [A4[0] , A4[0] + Div4, A4[0] + Div4*2, A4[0] + Div4*3]
     Div5 = (A5[1] - A5[0])/3
     AT5 = [A5[0] , A5[0] + Div5, A5[0] + Div5*2, A5[0] + Div5*3]
-    DivC = (C[1] - C[0])/3
-    ATC = [C[0] , C[0] + DivC, C[0] + DivC*2, C[0] + DivC*3]
+    Div6 = (A6[1]- A6[0])/3
+    AT6 = [A6[0] , A6[0] + Div6, A6[0] + Div6*2, A6[0] + Div6*3 + 0.00001] # Vuelve a haber el problema de que no da el numero completo
+    Div7 = (A7[1]- A7[0])/3
+    AT7 = [A7[0] , A7[0] + Div7, A7[0] + Div7*2, A7[0] + Div7*3]
+    Div8 = (A8[1]- A8[0])/3
+    AT8 = [A8[0] , A8[0] + Div8, A8[0] + Div8*2, A8[0] + Div8*3]
+    Div9 = (A9[1]- A9[0])/3
+    AT9 = [A9[0] , A9[0] + Div9, A9[0] + Div9*2, A9[0] + Div9*3]
     
-    Estimado = Calcular_defuzzi_3(Reglas, Data, AT1, AT2, AT3, AT4, AT5, ATC)
-    
-    return Error_Cuadratico(Estimado, Data)
+    #Estimado = Calcular_defuzzi_3(Reglas, Data, AT1, AT2, AT3, AT4, AT5, AT6, AT7, AT8, AT9)
+    Aciertos = Calcular_defuzzi_3(Reglas, Data, AT1, AT2, AT3, AT4, AT5, AT6, AT7, AT8, AT9)
+    print(Aciertos/len(Data))
+    return Aciertos/len(Data)
+    #return Error_Cuadratico(Estimado, Data)
     #print(Reglas)
 
 def Error_Cuadratico(Estimado, Real):
@@ -622,10 +638,10 @@ def Calcular_defuzzi_5(Reglas, Datos, AT1, AT2, AT3, AT4, AT5, AT6, AT7, AT8, AT
         sol = []
         for j in range(len(compara)):
             #print(compara[j], GA)
-            if compara[j][0] > GA:
+            if compara[j][0] > GA: # Si cambio a >= baja el acierto
                 GA = compara[j][0]
                 sol = compara[j]
-        print(Datos[i][9], GA, sol[1])
+        #print(Datos[i][9], GA, sol[1])
         # print(statistics.mean(compara[2]))
         if Datos[i][9] == sol[1]:
             acierto += 1
@@ -639,40 +655,62 @@ def Calcular_defuzzi_5(Reglas, Datos, AT1, AT2, AT3, AT4, AT5, AT6, AT7, AT8, AT
             #         acierto += 1
     return acierto
 
-def Calcular_defuzzi_3(Reglas, Datos, AT1, AT2, AT3, AT4, AT5, ATC):
-    deffu = []
+def Calcular_defuzzi_3(Reglas, Datos, AT1, AT2, AT3, AT4, AT5, AT6, AT7, AT8, AT9):
+    acierto = 0
     for i in range(len(Datos)):
         h = []
+        #compara = etiquetado_5(Datos[i], AT1, AT2, AT3, AT4, AT5, AT6, AT7, AT8, AT9)
         sumatorio_superior = 0
+        compara = []
         for j in range(len(Reglas)):
             minimo = []
+            comparado = []
+            resultado = []
             minimo.append(matching_3(Datos[i][0], AT1, Reglas[j][0]))
             minimo.append(matching_3(Datos[i][1], AT2, Reglas[j][1]))
             minimo.append(matching_3(Datos[i][2], AT3, Reglas[j][2]))
             minimo.append(matching_3(Datos[i][3], AT4, Reglas[j][3]))
             minimo.append(matching_3(Datos[i][4], AT5, Reglas[j][4]))
-            h.append(min(minimo))
-            if Reglas[j][5] == "Bajo":
-                PMV = (ATC[1] - ATC[0])/2
-            elif Reglas[j][5] == "Medio":
-                PMV = (ATC[2] - ATC[1])/2
-            elif Reglas[j][5] == "Alto":
-                PMV = (ATC[3] - ATC[2])/2
-            suma = PMV * min(minimo)
-            sumatorio_superior = sumatorio_superior + suma
-        if sum(h) == 0:
-            resultado = 0
-        else:
-            resultado = sumatorio_superior/sum(h)
-        deffu.append(resultado)
-    return deffu       
+            minimo.append(matching_3(Datos[i][5], AT6, Reglas[j][5]))
+            minimo.append(matching_3(Datos[i][6], AT7, Reglas[j][6]))
+            minimo.append(matching_3(Datos[i][7], AT8, Reglas[j][7]))
+            minimo.append(matching_3(Datos[i][8], AT9, Reglas[j][8]))
+            comparado.append(float(min(minimo)))
+            comparado.append(float(Reglas[j][10]))
+            resultado.append(statistics.mean(comparado))
+            resultado.append(float(Reglas[j][9]))
+            compara.append(resultado)
+        GA = 0.0
+        sol = []
+        for j in range(len(compara)):
+            #print(compara[j], GA)
+            if compara[j][0] > GA: # Si cambio a >= baja el acierto
+                GA = compara[j][0]
+                sol = compara[j]
+        #print(Datos[i][9], GA, sol[1])
+        # print(statistics.mean(compara[2]))
+        if Datos[i][9] == sol[1]:
+            acierto += 1
+            #minimo.append(Datos[i][9])
+            #print(minimo)
+            #h.append(min(minimo))
+            # if Comprueba_Antecedentes(compara, Reglas[j]):
+            #     #print("Antecendentes Iguales", float(Reglas[j][9]) == float(compara[9]))
+            #     if (float(Reglas[j][9]) == float(compara[9])):
+            #         #print(acierto)
+            #         acierto += 1
+    return acierto
         
 
 Training_5("Clasificador/training/glass-10-1tra.dat", "Clasificador/tmp/ReglasEtiquetadas5.txt")
-#Training_3("Clasificador/training/glass-10-1tra.dat", "Clasificador/tmp/ReglasEtiquetadas3.txt")
+Training_3("Clasificador/training/glass-10-1tra.dat", "Clasificador/tmp/ReglasEtiquetadas3.txt")
 AciertTraining = Controlador_5("Clasificador/training/glass-10-1tra.dat", "Clasificador/tmp/ReglasEtiquetadas5.txt")
 AciertoTest = Controlador_5("Clasificador/tst/glass-10-1tst.dat", "Clasificador/tmp/ReglasEtiquetadas5.txt")
 print("Acierto del training = ", AciertTraining)
+print("Acierto de Test = ", AciertoTest)
+AciertTraining = Controlador_3("Clasificador/training/glass-10-1tra.dat", "Clasificador/tmp/ReglasEtiquetadas3.txt")
+AciertoTest = Controlador_3("Clasificador/tst/glass-10-1tst.dat", "Clasificador/tmp/ReglasEtiquetadas3.txt")
+print("Acierto del training 3 Etiquetas = ", AciertTraining)
 print("Acierto de Test = ", AciertoTest)
 #Controlador("tst/delta_ail-5-1tst.dat","tmp/ReglasEtiquetadas5.txt")
 #Controlador("training/delta_ail-5-2tra.dat","tmp/ReglasEtiquetadas5.txt")
