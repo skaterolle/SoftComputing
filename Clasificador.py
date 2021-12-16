@@ -1,5 +1,6 @@
 
 from pathlib import Path
+import statistics
 
 def read_file(File):
     Path("./Clasificador/tmp").mkdir(parents=True, exist_ok=True)
@@ -264,6 +265,7 @@ def Descarta_Iguales(Reglas_Iniciales):
             Igual = Iguales[j]
             #print(Regla)
             if (Regla[0] == Igual[0]) and (Regla[1] == Igual[1]) and (Regla[2] == Igual[2]) and (Regla[3] == Igual[3]) and (Regla[4] == Igual[4]) and (Regla[5] == Igual[5]) and (Regla[6] == Igual[6]) and (Regla[7] == Igual[7]) and (Regla[8] == Igual[8]) and (Regla[9] == Igual[9]) and (Regla[10] == Igual[10]):
+                #print(Regla[j])
                 encontrado = True
         if not encontrado:
             Iguales.append(Regla)
@@ -309,12 +311,12 @@ def comprueba_antecedentes_iguales(List):
             if x != y:
                 if Comprueba_Antecedentes(List[x], List[y]):
                     print("Iguales, X = ", x, " Y = ", y)
-                    print("X = ", List[x][:-1], " Matching = ", List[x][10])
-                    print("Y = ", List[y][:-1], " Matching = ", List[y][10])
-                    if List[x][10] > List[y][10]:
-                        List.pop(y)
-                    else:
-                        List.pop(x)
+                    print("X = ", List[x][:], " Clase = ", List[x][9])
+                    print("Y = ", List[y][:], " Clase = ", List[y][9])
+                    # if List[x][10] > List[y][10]:
+                    #     List.pop(y)
+                    # else:
+                    #     List.pop(x)
 
 # Comprueba cada reglas si sus antecedentes son iguales pero sus consecuentes diferentes y coge el matching que se hizo al etiquetar cada regla
 # Y se escoge aquel que tenga mayor matching, Devuelve la Lista de Reglas sin el matching
@@ -324,6 +326,7 @@ def comprueba_Reglas(List):
         encontrado = False
         for y in range(len(Reglas_Afinadas)):
             if Comprueba_Antecedentes(List[x], Reglas_Afinadas[y]):
+                #print(List[x])
                 encontrado = True
                 #print(List[x])
                 if List[x][10] > Reglas_Afinadas[y][10] and List[x][9] == List[y][9]:
@@ -407,9 +410,9 @@ def Training_5(File, SaveFile):
     Iguales = comprueba_Reglas(Reglas_Iniciales)
     #print(Iguales)
     #comprueba_antecedentes_iguales(Iguales)
-    Iguales = Descarta_Iguales(Iguales)
+    #Iguales = Descarta_Iguales(Iguales)
     write_fileTSTR(SaveFile, Iguales[:][:])
-    #comprueba_antecedentes_iguales(Iguales)
+    comprueba_antecedentes_iguales(Iguales)
 
     # Muestra por pantalla
     #print("Reglas Totales: ", len(Iguales))
@@ -498,31 +501,49 @@ def Controlador_5(FileL,FileR):
     A3 = Min_Max[2]
     A4 = Min_Max[3]
     A5 = Min_Max[4]
-    C = Min_Max[5]
+    A6 = Min_Max[5]
+    A7 = Min_Max[6]
+    A8 = Min_Max[7]
+    A9 = Min_Max[8]
+    C = Min_Max[9]
+    #print(C)
     # Definición de variables de etiquetas
     AT1 = []
     AT2 = []
     AT3 = []
     AT4 = []
     AT5 = []
+    AT6 = []
+    AT7 = []
+    AT8 = []
+    AT9 = []
     porcentaje = 0
+
     # Saca los triangulos (Inicio y Final) de cada Antecedente y Consecuente y los guarda en una Lista
     Div1 = (A1[1] - A1[0])/5
     AT1 = [A1[0] , A1[0] + Div1, A1[0] + Div1*2, A1[0] + Div1*3, A1[0] + Div1*4, A1[0] + Div1*5]
     Div2 = (A2[1] - A2[0])/5
-    AT2 = [A2[0] , A2[0] + Div2, A2[0] + Div2*2, A2[0] + Div2*3, A2[0] + Div2*4, A2[0] + Div2*5 + 0.000001] # Hay un fallo por lo que se reduce en centesimas 1 punto y hace que falle
+    AT2 = [A2[0] , A2[0] + Div2, A2[0] + Div2*2, A2[0] + Div2*3, A2[0] + Div2*4, A2[0] + Div2*5] 
     Div3 = (A3[1] - A3[0])/5
     AT3 = [A3[0] , A3[0] + Div3, A3[0] + Div3*2, A3[0] + Div3*3, A3[0] + Div3*4, A3[0] + Div3*5]
     Div4 = (A4[1] - A4[0])/5
     AT4 = [A4[0] , A4[0] + Div4, A4[0] + Div4*2, A4[0] + Div4*3, A4[0] + Div4*4, A4[0] + Div4*5]
     Div5 = (A5[1] - A5[0])/5
     AT5 = [A5[0] , A5[0] + Div5, A5[0] + Div5*2, A5[0] + Div5*3, A5[0] + Div5*4, A5[0] + Div5*5]
-    DivC = (C[1] - C[0])/5
-    ATC = [C[0] , C[0] + DivC, C[0] + DivC*2, C[0] + DivC*3, C[0] + DivC*4, C[0] + DivC*5]
-    
-    Estimado = Calcular_defuzzi_5(Reglas, Data, AT1, AT2, AT3, AT4, AT5, ATC)
-    
-    return Error_Cuadratico(Estimado, Data)
+    Div6 = (A6[1]- A6[0])/5
+    AT6 = [A6[0] , A6[0] + Div6, A6[0] + Div6*2, A6[0] + Div6*3, A6[0] + Div6*4, A6[0] + Div6*5]
+    Div7 = (A7[1]- A7[0])/5
+    AT7 = [A7[0] , A7[0] + Div7, A7[0] + Div7*2, A7[0] + Div7*3, A7[0] + Div7*4, A7[0] + Div7*5]
+    Div8 = (A8[1]- A8[0])/5
+    AT8 = [A8[0] , A8[0] + Div8, A8[0] + Div8*2, A8[0] + Div8*3, A8[0] + Div8*4, A8[0] + Div8*5]
+    Div9 = (A9[1]- A9[0])/5
+    AT9 = [A9[0] , A9[0] + Div9, A9[0] + Div9*2, A9[0] + Div9*3, A9[0] + Div9*4, A9[0] + Div9*5]
+    #print(ATC)
+
+    Aciertos = Calcular_defuzzi_5(Reglas, Data, AT1, AT2, AT3, AT4, AT5, AT6, AT7, AT8, AT9)
+    print(Aciertos/len(Data))
+    return Aciertos/len(Data)
+    #return Error_Cuadratico(Estimado, Data)
     #print(Reglas)
 
 def Controlador_3(FileL,FileR):
@@ -570,37 +591,53 @@ def Error_Cuadratico(Estimado, Real):
     return Error
 
 
-def Calcular_defuzzi_5(Reglas, Datos, AT1, AT2, AT3, AT4, AT5, ATC):
-    deffu = []
+def Calcular_defuzzi_5(Reglas, Datos, AT1, AT2, AT3, AT4, AT5, AT6, AT7, AT8, AT9):
+    acierto = 0
     for i in range(len(Datos)):
         h = []
+        #compara = etiquetado_5(Datos[i], AT1, AT2, AT3, AT4, AT5, AT6, AT7, AT8, AT9)
         sumatorio_superior = 0
+        compara = []
         for j in range(len(Reglas)):
             minimo = []
+            comparado = []
+            resultado = []
             minimo.append(matching_5(Datos[i][0], AT1, Reglas[j][0]))
             minimo.append(matching_5(Datos[i][1], AT2, Reglas[j][1]))
             minimo.append(matching_5(Datos[i][2], AT3, Reglas[j][2]))
             minimo.append(matching_5(Datos[i][3], AT4, Reglas[j][3]))
             minimo.append(matching_5(Datos[i][4], AT5, Reglas[j][4]))
-            h.append(min(minimo))
-            if Reglas[j][5] == "Bajo":
-                PMV = (ATC[1] - ATC[0])/2
-            elif Reglas[j][5] == "Medio-Bajo":
-                PMV = (ATC[2] - ATC[1])/2
-            elif Reglas[j][5] == "Medio":
-                PMV = (ATC[3] - ATC[2])/2
-            elif Reglas[j][5] == "Medio-Alto":
-                PMV = (ATC[4] - ATC[3])/2
-            elif Reglas[j][5] == "Alto":
-                PMV = (ATC[5] - ATC[4])/2
-            suma = PMV * min(minimo)
-            sumatorio_superior = sumatorio_superior + suma
-        if sum(h) == 0:
-            resultado = 0
-        else:
-            resultado = sumatorio_superior/sum(h)
-        deffu.append(resultado)
-    return deffu
+            minimo.append(matching_5(Datos[i][5], AT6, Reglas[j][5]))
+            minimo.append(matching_5(Datos[i][6], AT7, Reglas[j][6]))
+            minimo.append(matching_5(Datos[i][7], AT8, Reglas[j][7]))
+            minimo.append(matching_5(Datos[i][8], AT9, Reglas[j][8]))
+            comparado.append(float(min(minimo)))
+            comparado.append(float(Reglas[j][10]))
+            # print(statistics.mean(comparado))
+            # input("Enter")
+            resultado.append(statistics.mean(comparado))
+            resultado.append(float(Reglas[j][9]))
+            compara.append(resultado)
+        GA = 0.0
+        sol = []
+        for j in range(len(compara)):
+            #print(compara[j], GA)
+            if compara[j][0] > GA:
+                GA = compara[j][0]
+                sol = compara[j]
+        print(Datos[i][9], GA, sol[1])
+        # print(statistics.mean(compara[2]))
+        if Datos[i][9] == sol[1]:
+            acierto += 1
+            #minimo.append(Datos[i][9])
+            #print(minimo)
+            #h.append(min(minimo))
+            # if Comprueba_Antecedentes(compara, Reglas[j]):
+            #     #print("Antecendentes Iguales", float(Reglas[j][9]) == float(compara[9]))
+            #     if (float(Reglas[j][9]) == float(compara[9])):
+            #         #print(acierto)
+            #         acierto += 1
+    return acierto
 
 def Calcular_defuzzi_3(Reglas, Datos, AT1, AT2, AT3, AT4, AT5, ATC):
     deffu = []
@@ -632,7 +669,11 @@ def Calcular_defuzzi_3(Reglas, Datos, AT1, AT2, AT3, AT4, AT5, ATC):
         
 
 Training_5("Clasificador/training/glass-10-1tra.dat", "Clasificador/tmp/ReglasEtiquetadas5.txt")
-Training_3("Clasificador/training/glass-10-1tra.dat", "Clasificador/tmp/ReglasEtiquetadas3.txt")
+#Training_3("Clasificador/training/glass-10-1tra.dat", "Clasificador/tmp/ReglasEtiquetadas3.txt")
+AciertTraining = Controlador_5("Clasificador/training/glass-10-1tra.dat", "Clasificador/tmp/ReglasEtiquetadas5.txt")
+AciertoTest = Controlador_5("Clasificador/tst/glass-10-1tst.dat", "Clasificador/tmp/ReglasEtiquetadas5.txt")
+print("Acierto del training = ", AciertTraining)
+print("Acierto de Test = ", AciertoTest)
 #Controlador("tst/delta_ail-5-1tst.dat","tmp/ReglasEtiquetadas5.txt")
 #Controlador("training/delta_ail-5-2tra.dat","tmp/ReglasEtiquetadas5.txt")
 #Training_3("training/delta_ail-5-3tra.dat", "tmp/ReglasEtiquetadas3.txt")
